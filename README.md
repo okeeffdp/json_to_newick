@@ -1,7 +1,7 @@
 
 # JSON to Newick
 
-json_to_newick.py contains a fucntion, json_to_newick, to convert a json object to newick format.
+json_to_newick.py contains a function, json_to_newick, to convert a json object to newick format.
 
 Parameters:
 -----------
