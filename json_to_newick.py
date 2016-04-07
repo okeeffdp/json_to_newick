@@ -5,15 +5,14 @@ def json_to_newick(json):
 
 	Parameters:
 	-----------
-		json 	-	A json object. See http://en.wikipedia.org/wiki/JSON
+	json - A json object. See http://en.wikipedia.org/wiki/JSON
 
 	Output:
 	-------
-		string 	-	A string in newick format. See http://en.wikipedia.org/wiki/Newick_format
+	string - A string in newick format. See http://en.wikipedia.org/wiki/Newick_format
 
 	Example:
 	--------
-
 	>>> json = {
 		"name" : "F",
 		"children": [
@@ -31,7 +30,7 @@ def json_to_newick(json):
 	(A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F;
 
 	"""
-	def _parse_json(json):
+	def _parse_json(json_obj):
 		"""Return a json object in the format desribed below
 		(------- daughter node ------,------- daughter node ------, ...,------- daughter node ------)-- root/parent -- 
 		((children)name:branch_length,(children)name:branch_length, ...,(children)name:branch_length))name
@@ -39,20 +38,20 @@ def json_to_newick(json):
 
 		try:
 			# Test is the key 'name' in the current level of the dictionary.
-			newick = json['name']
+			newick = json_obj['name']
 		except KeyError:
 			# Catch no 'name' trees and start the newick string with empty qoutes
 			newick = ''
 
-		if json.has_key('branch_length'):
-			newick = newick + ':' + str(json['branch_length'])
+		if 'branch_length' in json_obj:
+			newick = newick + ':' + str(json_obj['branch_length'])
 
 		# If there are 'children'	
-		if json.has_key('children'):
+		if 'children' in json_obj:
 			# Initialise a list to contain the daughter info
 			info = []
 			# For each child, treat it as a new dictionary object
-			for child in json['children']:
+			for child in json_obj['children']:
 				# parse the newick string straight into it the list
 				info.append(_parse_json(child))
 
@@ -64,7 +63,7 @@ def json_to_newick(json):
 
 		return(newick)
 
-	newick = _parse_json(json) + ';'
+	newick = _parse_json(json_obj) + ';'
 
 	return(newick)
 
